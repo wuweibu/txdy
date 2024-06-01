@@ -5,7 +5,7 @@ from utils import DataWriter
 cisco_writer = DataWriter()
 
 
-# CPU使用率、内存利用率、
+# CPU使用率、内存利用率、wwb
 
 def low_high_random(low, high):
     return np.random.rand()*(high - low) + low
