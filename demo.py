@@ -14,7 +14,7 @@ def low_high_random(low, high):
 def rand_int(max_value):
     return np.random.randint(0,max_value)
 
-# 假设这是一台交换机
+# 假设这是一台交换机.
 def device_1(name):
     print(f"Device - {name} 开始监控！")
     cpu1 = low_high_random(43, 80)
