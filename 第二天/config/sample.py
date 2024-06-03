@@ -3,9 +3,9 @@ from netmiko import ConnectHandler
 #完成设备基本信息
 device_info={
     "device_type":"huawei_vrpv8",
-    "ip":"192.168.1.1",
+    "ip":"172.20.1.254",
     "port" : 22,
-    "username" : 'huaweiuser',
+    "username" : 'huawei',
     "password" : "huawei@123",
 }
 
