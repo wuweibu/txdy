@@ -1,5 +1,5 @@
-from connection import Net
-from netmiko import ConnectHandler
+from connection import *
+
 
 net = Net('huawei_vrpv8','172.20.1.254','huawei','huawei@123')
 
