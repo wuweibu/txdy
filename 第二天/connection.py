@@ -10,23 +10,21 @@ alert_mail = "973962717@qq.com"
 smtpserver = "smtp.tom.com"
 smtpport = 25
 
-class Net:
-    def __init__(self,device_type,host,username,password):
-        self.device_info = {
-            "device_type":device_type,
-            "ip":host,
-            "port":22,
-            "username":username,
-            "password":password
+class Net():
+    def __init__(self, ip, username, password, device_type="huawei_vrpv8"):
+        device_info = {
+            "device_type": device_type,
+            "ip" : ip, 
+            "port" : 22, 
+            "username" : username,
+            "password" : password
         }
-        self.device = self.connect
+        self.device = self.connect(device_info)
+        self.cpu_data = None
 
-    def connect(self):
-        return ConnectHandler(**self.device_info)
+    def connect(self,device_info):
+        return ConnectHandler(**device_info)
     
-    def reconnect(self):
-        self.device.disconnect()
-        self.device = self.connect()
     
     def to_json(self,data_dict,file_path):
         with open(file_path,'w')as f:
@@ -42,6 +40,11 @@ class Net:
         sender.sendmail(usermail,alert_mail,message)
         sender.quit()
 
-    
+
+net = Net('172.20.1.254','huawei','huawei@123')
+
+cmd = 'display cur'
+info = net.device.send_command(cmd)
+print(info)
 
     

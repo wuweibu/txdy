@@ -1,4 +1,4 @@
-from connection import *
+from connection import Net
 
 
 net = Net('huawei_vrpv8','172.20.1.254','huawei','huawei@123')
