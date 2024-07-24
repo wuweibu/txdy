@@ -21,7 +21,7 @@ def config_if_ip(ssh_hand, if_name, ip_address, ip_mask):
                 'undo portswitch',
                 f'ip add {ip_address} {ip_mask}']
     for cmd in cmd_list:
-        ssh_hand.send_command(command_string=cmd,expect_string=r']')
+        ssh_hand.send_command(command_string=cmd,expect_string=r']')  #expect_string=r']' ：寻找中括号才能进行下一步
 
 
 

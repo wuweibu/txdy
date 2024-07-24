@@ -1,7 +1,8 @@
 from netmiko import ConnectHandler
+import pandas as pd
 
 class Network():
-    def __init__(self, ip, username, password, device_type=""):
+    def __init__(self, ip, username, password, device_type="huawei_vrpv8"):
         device_info = {
             "device_type": device_type,
             "ip" : ip, 
@@ -12,24 +13,37 @@ class Network():
         self.ssh = self.conn(device_info)
         self.cpu_data = None
     
-    ## Task1: 完善conn函数
+    ## Task1: 完善conn函数     连接设备
     def conn(self, device_info):
         return ConnectHandler(**device_info)
 
-
-    ## Task2: 获取设备CPU信息
+    ## Task2: 获取设备CPU信息  并断开连接
     def get_cpu(self):
         self.cpu_data = self.ssh.send_command('dis cpu')
+        self.ssh.disconnect()
 
-
-    ## Task3: 数据处理找到CPU使用率的几个指标（5秒，1分钟，5分钟）
+    ## Task3: 数据处理找到CPU使用率的几个指标（5秒，1分钟，5分钟）  
     def proc_cpu(self):
-        cpu_line = self.cpu_data.split('CPU utilization for ')[1].split('.')[0]
-        data_list = [one[-1:] for one in cpu_line.split('%') if one != '']
+        cpu_line = self.cpu_data.split('CPU utilization for ')[1].split('\n')[0]    #分割数据
+        data_list = [one[-2:] for one in cpu_line.split('%') if one != '']    #通过%分割 取后两位  去除‘ ’      列表表达式
         print(data_list)
+        return data_list
 
 
 ## Task4: 调整登录信息，实例化并运行代码
-net = Network('192.168.1.101', 'huaweiuser', 'Huawei@123')
+net = Network('172.20.1.254', 'huawei', 'huawei@123')
 net.get_cpu()
-net.proc_cpu()
+date5=net.proc_cpu()
+
+# 创建一个excel的行和列
+print(date5)
+date1=date5[0]
+date2=date5[1]
+date3=date5[2]
+print(date1)
+data4 = {'五秒': [date1], '一分钟': [date2],'五分钟':[date3]}
+df = pd.DataFrame(data4)
+
+# 将DataFrame写入Excel文件
+df.to_excel('example_pandas.xlsx', index=False)
+
