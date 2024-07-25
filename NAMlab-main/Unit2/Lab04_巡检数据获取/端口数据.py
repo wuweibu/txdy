@@ -19,7 +19,7 @@ class Network():
 
     ## Task2: 获取设备CPU信息  并断开连接
     def get_cpu(self):
-        self.cpu_data = self.ssh.send_command('display interface',read_timeout=40)
+        self.cpu_data = self.ssh.send_command('display interface',read_timeout=50)
         print(self.cpu_data)
         print(len(self.cpu_data))
         with open('666.txt','w') as f:
@@ -29,17 +29,22 @@ class Network():
     ## Task3: 数据处理找到CPU使用率的几个指标（5秒，1分钟，5分钟）  
     def proc_cpu(self):
         #cpu_line = self.cpu_data.split('CPU utilization for ')[1].split('\n')[0]    #分割数据
-        interface = [self.cpu_data.split('current state')[0]]    #通过%分割 取后两位  去除‘ ’      列表表达式
+        interface = self.cpu_data.split('The Number of UP Ports in Trunk :')[0] #通过%分割 取后两位  去除‘ ’      列表表达式
+        
+        for a in interface :
+            jk=a.split('current state :')[0]
+            print(jk)
         #zt = [one.split('current state :')[0].split('\n')[0] for one in self.cpu_data.split('Last 300 seconds input rate') if one != '']
         #interface = [one.split('current state :')[0] for one in self.cpu_data.split('Last 300 seconds input rate') if one != '']
-        print(interface)
+        #b=interface.split('current state :')[0]
+        #print(b)
 
 
 
 ## Task4: 调整登录信息，实例化并运行代码
 net = Network('172.20.1.254', 'huawei', 'huawei@123')
 net.get_cpu()
-#date5=net.proc_cpu()
+net.proc_cpu()
 
 # 创建一个excel的行和列
 #print(date5)
